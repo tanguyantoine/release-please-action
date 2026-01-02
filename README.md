@@ -66,6 +66,30 @@ steps:
       manifest-file: .release-please-manifest.json
 ```
 
+### Customizing Changelog Sections
+
+You can customize the changelog sections from the workflow level, which is useful for
+reusable workflows that need to enforce consistent changelog formatting across multiple
+repositories:
+
+```yaml
+steps:
+  - uses: googleapis/release-please-action@v4
+    with:
+      token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
+      config-file: release-please-config.json
+      manifest-file: .release-please-manifest.json
+      # optional. override changelog sections for all packages
+      changelog-sections: |
+        [
+          {"type":"feat","section":"🚀 Features","hidden":false},
+          {"type":"fix","section":"🐞 Bug Fixes","hidden":false},
+          {"type":"perf","section":"✨ Performance","hidden":false},
+          {"type":"docs","section":"📚 Documentation","hidden":false},
+          {"type":"chore","section":"🧰 Maintenance","hidden":true}
+        ]
+```
+
 ## Action Inputs
 
 | input                      | description                                                                                                                            |
@@ -85,6 +109,7 @@ steps:
 | `skip-github-release`      | If `true`, do not attempt to create releases. This is useful if splitting release tagging from PR creation.                            |
 | `skip-github-pull-request` | If `true`, do not attempt to create release pull requests. This is useful if splitting release tagging from PR creation.               |
 | `skip-labeling`            | If `true`, do not attempt to label the PR.                                                                                          |
+| `changelog-sections`       | JSON array defining changelog sections. Example: `[{"type":"feat","section":"Features","hidden":false}]`. Overrides config file settings for all packages. |
 
 ## GitHub Credentials
 
